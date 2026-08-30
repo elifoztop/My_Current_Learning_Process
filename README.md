@@ -1,6 +1,6 @@
 ## Güncel Öğrenme Sürecim
 
-Bu repo, veri bilimi, makine öğrenmesi, derin öğrenme, ileri seviye python becerisi konularında güncel öğrenme sürecimi belgelemek için oluşturulmuştur.
+Bu repo,güncel öğrenme sürecimi belgelemek için oluşturulmuştur.
 
 ## Amaç
 

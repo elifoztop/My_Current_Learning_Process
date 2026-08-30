@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elif Öztop — Portfolio</title>
+  <style>
+    /* ── Reset & Base ──────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #e8e8e8;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* ── Main Grid ─────────────────────────────────── */
+    .portfolio {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    /* ── Cards (shared) ────────────────────────────── */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    /* ── Left Sidebar — Profile Card ───────────────── */
+    .profile-card {
+      grid-row: 1 / 3;
+      border: 2.5px dashed #999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    .profile-card__role {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #222;
+    }
+
+    .profile-card__subtitle {
+      font-size: 0.78rem;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .profile-card__avatar {
+      width: 180px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid #ddd;
+    }
+
+    .profile-card__name {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #222;
+      margin-top: 6px;
+    }
+
+    .profile-card__pronouns {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: -4px;
+    }
+
+    .profile-card__motto {
+      font-size: 0.85rem;
+      font-style: italic;
+      color: #444;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* Social icons */
+    .social-links {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: #222;
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 700;
+      transition: opacity 0.2s;
+    }
+
+    .social-links a:hover { opacity: 0.75; }
+
+    .social-links a svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+
+    .social-links__kaggle {
+      font-size: 0.55rem !important;
+      letter-spacing: -0.02em;
+    }
+
+    .social-links__medium {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1.55rem !important;
+      font-weight: 400;
+      letter-spacing: -0.06em;
+      overflow: hidden;
+      justify-content: flex-start !important;
+      padding-left: 5px;
+    }
+
+    /* ── Top-Right: Three-Column Skills ────────────── */
+    .skills-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .skills-col {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px 20px;
+    }
+
+    .skills-col__title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-align: center;
+      margin-bottom: 16px;
+      color: #222;
+    }
+
+    /* Social Skills — segmented bars */
+    .skill-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .skill-bar__label {
+      font-size: 0.75rem;
+      color: #444;
+      min-width: 82px;
+      text-align: right;
+    }
+
+    .skill-bar__track {
+      flex: 1;
+      display: flex;
+      gap: 2px;
+      height: 14px;
+    }
+
+    .skill-bar__segment {
+      flex: 1;
+      border-radius: 2px;
+      background: #ddd;
+    }
+
+    .skill-bar__segment--filled {
+      background: #333;
+    }
+
+    /* Hobbies list */
+    .hobbies-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .hobbies-list li {
+      font-size: 0.78rem;
+      color: #444;
+      line-height: 1.45;
+    }
+
+    .hobbies-list li span.emoji {
+      margin-right: 4px;
+    }
+
+    /* Technical Skills */
+    .tech-list {
+      list-style: disc;
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tech-list li {
+      font-size: 0.78rem;
+      color: #444;
+      line-height: 1.5;
+    }
+
+    .tech-list li strong {
+      color: #222;
+    }
+
+    .tech-list li em {
+      font-style: italic;
+    }
+
+    /* ── Bottom-Right: About Me ────────────────────── */
+    .about-card {
+      border: 2px solid #000000;
+      padding: 32px 30px;
+    }
+
+    .about-card__title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: #222;
+      margin-bottom: 16px;
+    }
+
+    .about-card p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    .about-card p + p {
+      margin-top: 12px;
+    }
+
+    /* ── Responsive ────────────────────────────────── */
+    @media (max-width: 900px) {
+      .portfolio {
+        grid-template-columns: 1fr;
+      }
+
+      .profile-card {
+        grid-row: auto;
+      }
+
+      .skills-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+
+      .card { padding: 20px 16px; }
+
+      .skills-col { padding: 18px 14px; }
+
+      .profile-card__avatar {
+        width: 140px;
+        height: 160px;
+      }
+
+      .about-card { padding: 22px 18px; }
+      .about-card__title { font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="portfolio">
+
+    <!-- ════ LEFT SIDEBAR — Profile Card ════ -->
+    <aside class="card profile-card" aria-label="Profile">
+      <h1 class="profile-card__role">AI &amp; Data Engineering Candidate</h1>
+      <p class="profile-card__subtitle">Computer Engineering Student (Completed 1st Year)</p>
+
+      <img
+        class="profile-card__avatar"
+        src="profile.jpg"
+        alt="Elif Öztop — profile photo"
+        width="180"
+        height="200"
+        loading="eager"
+      />
+
+      <h2 class="profile-card__name">Elif Öztop</h2>
+      <p class="profile-card__pronouns">(she/her)</p>
+      <p class="profile-card__motto">"Becoming something quietly unstoppable"</p>
+
+      <nav class="social-links" aria-label="Social media links">
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/in/elifoztop05" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05a3.74 3.74 0 013.37-1.85c3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 110-4.13 2.06 2.06 0 010 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77A1.75 1.75 0 000 1.73v20.54A1.75 1.75 0 001.77 24h20.46A1.75 1.75 0 0024 22.27V1.73A1.75 1.75 0 0022.23 0z"/></svg>
+        </a>
+        <!-- GitHub -->
+        <a href="https://github.com/elifoztop" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .3a12 12 0 00-3.8 23.38c.6.11.82-.26.82-.58v-2.16c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 00-1.33-1.76c-1.09-.74.08-.73.08-.73a2.52 2.52 0 011.84 1.24 2.56 2.56 0 003.5 1 2.56 2.56 0 01.76-1.61c-2.67-.3-5.47-1.33-5.47-5.93a4.64 4.64 0 011.24-3.22 4.32 4.32 0 01.12-3.18s1-.32 3.3 1.23a11.38 11.38 0 016 0c2.3-1.55 3.3-1.23 3.3-1.23a4.32 4.32 0 01.12 3.18 4.64 4.64 0 011.24 3.22c0 4.61-2.81 5.63-5.48 5.93a2.86 2.86 0 01.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0012 .3z"/></svg>
+        </a>
+        <!-- Kaggle -->
+        <a href="https://www.kaggle.com/elifztop/code" target="_blank" rel="noopener noreferrer" aria-label="Kaggle" class="social-links__kaggle">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.825 23.859a.846.846 0 01-.724-.379l-5.472-7.591-2.058 2.005v5.153c0 .549-.45.812-.813.812H7.891c-.363 0-.812-.263-.812-.812V1.141c0-.55.45-.812.812-.812h1.867c.363 0 .813.263.813.812v11.848l7.178-7.267a.877.877 0 01.621-.264h2.404c.762 0 1.003.602.485 1.067l-6.574 6.46 7.013 9.478c.39.53.07 1.142-.497 1.142h-2.375z"/></svg>
+        </a>
+        <!-- Medium -->
+        <a href="https://medium.com/@oztopelf05" target="_blank" rel="noopener noreferrer" aria-label="Medium" class="social-links__medium">Me</a>
+      </nav>
+    </aside>
+
+    <!-- ════ TOP-RIGHT — Three-Column Skills ════ -->
+    <section class="skills-row" aria-label="Skills and hobbies">
+
+      <!-- Column 1: Social Skills -->
+      <div class="skills-col">
+        <h3 class="skills-col__title">Social Skills</h3>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Responsible</span>
+          <div class="skill-bar__track" role="meter" aria-label="Responsible 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Intellectual</span>
+          <div class="skill-bar__track" role="meter" aria-label="Intellectual 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Resilience</span>
+          <div class="skill-bar__track" role="meter" aria-label="Resilience 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Planning</span>
+          <div class="skill-bar__track" role="meter" aria-label="Planning 95%" aria-valuenow="95" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Comm.</span>
+          <div class="skill-bar__track" role="meter" aria-label="Communication 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Adaptability</span>
+          <div class="skill-bar__track" role="meter" aria-label="Adaptability 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">Teamwork</span>
+          <div class="skill-bar__track" role="meter" aria-label="Teamwork 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+
+        <div class="skill-bar">
+          <span class="skill-bar__label">English</span>
+          <div class="skill-bar__track" role="meter" aria-label="English 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment skill-bar__segment--filled"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+            <span class="skill-bar__segment"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Hobbies -->
+      <div class="skills-col">
+        <h3 class="skills-col__title">Hobbies</h3>
+        <ul class="hobbies-list">
+          <li><span class="emoji">💻</span> Content Writing &amp; Blogging</li>
+          <li><span class="emoji">📗</span> Planner Keeping &amp; Decorating</li>
+          <li><span class="emoji">✏️</span> Pencil Sketching</li>
+          <li><span class="emoji">📖</span> Reading Fiction Novels</li>
+          <li><span class="emoji">🛠️</span> Simple DIY Projects</li>
+          <li><span class="emoji">✍️</span> Writing Poetry</li>
+          <li><span class="emoji">🎧</span> Listening to Peaceful Music</li>
+          <li><span class="emoji">🎮</span> Playing Story-Driven Games</li>
+          <li><span class="emoji">🔍</span> Multi-disciplinary Researching (Personal Development, Literature, Tech, Psychology, Art, Philosophy)</li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Technical Skills -->
+      <div class="skills-col">
+        <h3 class="skills-col__title">Technical Skills</h3>
+        <ul class="tech-list">
+          <li><strong>Programming Languages:</strong> <em>Python, C (Advanced)</em> | <em>Java, HTML/CSS (Intermediate)</em></li>
+          <li><strong>Deep Learning &amp; AI:</strong> <em>Deep Learning, PyTorch</em></li>
+          <li><strong>Data Science &amp; Analytics:</strong> <em>Pandas, NumPy, Power BI, Matplotlib</em></li>
+          <li><strong>Database Management:</strong> <em>SQL (SQLite)</em></li>
+          <li><strong>Tools &amp; Version Control:</strong> <em>Git, Terminal (CLI)</em></li>
+          <li><strong>Productivity:</strong> <em>Microsoft Office Suite, Google Workspace, Canva, Notion</em></li>
+        </ul>
+      </div>
+
+    </section>
+
+    <!-- ════ BOTTOM-RIGHT — About Me ════ -->
+    <section class="card about-card" aria-label="About me">
+      <h2 class="about-card__title">About Me</h2>
+      <p>I am a Computer Engineering student at Necmettin Erbakan University, focusing on Artificial Intelligence, Deep Learning, and Data Engineering. Guided by a commitment to continuous learning and responsibility, I value bringing projects through from initial ideas to completion.</p>
+      <p>I actively participate in Teknofest competitions and hackathons to apply my technical skills, while gaining hands-on experience in teamwork and taking on leadership roles within student technology societies.</p>
+    </section>
+
+  </main>
+
+</body>
+</html>
